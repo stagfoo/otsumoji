@@ -31,6 +31,7 @@ BLUE = [
   "emoji/blue/right.png",
   "emoji/blue/down.png",
   "emoji/blue/up.png",
+  "emoji/blue/base.png",
 ]
 
 pygame.init()
@@ -54,13 +55,11 @@ BUTTONS_GREEN = 0
 BUTTONS_RED = 1
 BUTTONS_BLUE = 2
 BUTTONS_YELLOW = 3
-
 JOYSTICK_POSTION = "NONE"
-
 
 # Set the width and height of the screen [width, height]
 screenSize = (240,155)
-screen = pygame.display.set_mode(screenSize)
+bigScreenSize = (240*3,155*3)
 
 
 # Loop until the user clicks the close button.
@@ -72,6 +71,7 @@ clock = pygame.time.Clock()
 # Current Emoji
 CURRENT_COLOR = YELLOW
 CURRENT_EMOJI = YELLOW[0]
+CURRENT_SIZE = screenSize
 
 # -------- Main Program Loop -----------
 while not done:
@@ -102,21 +102,31 @@ while not done:
             print("Joystick '",joysticks[event.joy].get_name(),"' button",event.button,"down.")
             if event.button == BUTTONS_YELLOW:
               CURRENT_COLOR= YELLOW
+              CURRENT_EMOJI = CURRENT_COLOR[4]
             if event.button == BUTTONS_BLUE:
               CURRENT_COLOR= BLUE
+              CURRENT_EMOJI = CURRENT_COLOR[4]
             if event.button == BUTTONS_GREEN:
               CURRENT_COLOR= GREEN
+              CURRENT_EMOJI = CURRENT_COLOR[4]
             if event.button == BUTTONS_RED:
               CURRENT_COLOR= RED
+              CURRENT_EMOJI = CURRENT_COLOR[4]
             if event.button == 9:
               CURRENT_EMOJI = CURRENT_COLOR[4]
+            if event.button == 5:
+              if CURRENT_SIZE == screenSize:
+                  CURRENT_SIZE = bigScreenSize
+              else:
+                  CURRENT_SIZE = screenSize
 
 
     #Set background
+    screen = pygame.display.set_mode(CURRENT_SIZE)
     screen.fill(WHITE)
     #Set Emoji
     picture = pygame.image.load(CURRENT_EMOJI)
-    scaledImage = pygame.transform.scale(picture, screenSize)
+    scaledImage = pygame.transform.scale(picture, CURRENT_SIZE)
     screen.blit(scaledImage,(0,0))
 
     # --- Go ahead and update the screen with what we've drawn.
