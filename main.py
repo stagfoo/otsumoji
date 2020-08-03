@@ -2,34 +2,41 @@ import pygame
 import os
 
 # Define some colors
-BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
-GREEN = (0, 255, 0)
-RED = (255, 0, 0)
 
 
 YELLOW = [
-  "emoji/eaPlemiddle.png",
-  "emoji/normal.png"
+  "emoji/yellow/mid-left.png",
+  "emoji/yellow/mid-right.png",
+  "emoji/yellow/down.png",
+  "emoji/yellow/up.png",
+  "emoji/yellow/base.png",
 ]
 GREEN = [
-  "emoji/gross.png",
+  "emoji/green/left.png",
+  "emoji/green/right.png",
+  "emoji/green/down.png",
+  "emoji/green/up.png",
+  "emoji/green/base.png",
 ]
 RED = [
-  "emoji/angry.png",
+    "emoji/red/left.png",
+  "emoji/red/right.png",
+  "emoji/red/down.png",
+  "emoji/red/up.png",
+  "emoji/red/base.png",
 ]
 BLUE = [
-  "emoji/sad.png",
+  "emoji/blue/left.png",
+  "emoji/blue/right.png",
+  "emoji/blue/down.png",
+  "emoji/blue/up.png",
 ]
-
-
-
 
 pygame.init()
 gameIcon = pygame.image.load('icon.png')
 pygame.display.set_icon(gameIcon)
 pygame.display.set_caption("Ostumoji")
-
 
 pygame.joystick.init()
 joysticks = []
@@ -63,6 +70,7 @@ done = False
 clock = pygame.time.Clock()
 
 # Current Emoji
+CURRENT_COLOR = YELLOW
 CURRENT_EMOJI = YELLOW[0]
 
 # -------- Main Program Loop -----------
@@ -80,27 +88,29 @@ while not done:
             ud = joysticks[event.joy].get_axis(1)
             if round(lr) < 0: #left
               JOYSTICK_POSTION = "LEFT"
-              CURRENT_EMOJI= BLUE[0]
+              CURRENT_EMOJI= CURRENT_COLOR[0]
             if round(lr) > 0 : #right
               JOYSTICK_POSTION = "RIGHT"
-              CURRENT_EMOJI= RED[0]
+              CURRENT_EMOJI= CURRENT_COLOR[1]
             if round(ud) > 0: #down
               JOYSTICK_POSTION = "DOWN"
-              CURRENT_EMOJI= GREEN[0]
+              CURRENT_EMOJI= CURRENT_COLOR[2]
             if round(ud) < 0: #up
               JOYSTICK_POSTION = "UP"
-              CURRENT_EMOJI= YELLOW[0]
-            # print("Joystick '",joysticks[event.joy].get_name(),"' axis",event.axis,"motion.")
+              CURRENT_EMOJI= CURRENT_COLOR[3]
         elif event.type == pygame.JOYBUTTONDOWN:
             print("Joystick '",joysticks[event.joy].get_name(),"' button",event.button,"down.")
             if event.button == BUTTONS_YELLOW:
-              CURRENT_EMOJI= YELLOW[0]
+              CURRENT_COLOR= YELLOW
             if event.button == BUTTONS_BLUE:
-              CURRENT_EMOJI= BLUE[0]
+              CURRENT_COLOR= BLUE
             if event.button == BUTTONS_GREEN:
-              CURRENT_EMOJI= GREEN[0]
+              CURRENT_COLOR= GREEN
             if event.button == BUTTONS_RED:
-              CURRENT_EMOJI= RED[0]
+              CURRENT_COLOR= RED
+            if event.button == 9:
+              CURRENT_EMOJI = CURRENT_COLOR[4]
+
 
     #Set background
     screen.fill(WHITE)
