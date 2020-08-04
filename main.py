@@ -4,7 +4,6 @@ import os
 # Define some colors
 WHITE = (255, 255, 255)
 
-
 YELLOW = [
   "emoji/yellow/mid-left.png",
   "emoji/yellow/mid-right.png",
@@ -20,7 +19,7 @@ GREEN = [
   "emoji/green/base.png",
 ]
 RED = [
-    "emoji/red/left.png",
+  "emoji/red/left.png",
   "emoji/red/right.png",
   "emoji/red/down.png",
   "emoji/red/up.png",
@@ -34,7 +33,9 @@ BLUE = [
   "emoji/blue/base.png",
 ]
 
+
 pygame.init()
+# Add Game Icon and Title
 gameIcon = pygame.image.load('icon.png')
 pygame.display.set_icon(gameIcon)
 pygame.display.set_caption("Ostumoji")
@@ -42,7 +43,7 @@ pygame.display.set_caption("Ostumoji")
 pygame.joystick.init()
 joysticks = []
 
-# for al the connected joysticks
+# for all the connected joysticks
 for i in range(0, pygame.joystick.get_count()):
     # create an Joystick object in our list
     joysticks.append(pygame.joystick.Joystick(i))
@@ -63,7 +64,7 @@ bigScreenSize = (240*3,155*3)
 
 
 # Loop until the user clicks the close button.
-done = False
+isRunning = True
 
 # Used to manage how fast the screen updates
 clock = pygame.time.Clock()
@@ -73,12 +74,20 @@ CURRENT_COLOR = YELLOW
 CURRENT_EMOJI = YELLOW[0]
 CURRENT_SIZE = screenSize
 
+
+
+def toggleSprintSize():
+  if CURRENT_SIZE == screenSize:
+      CURRENT_SIZE = bigScreenSize
+  else:
+      CURRENT_SIZE = screenSize
+
 # -------- Main Program Loop -----------
-while not done:
+while isRunning:
     # --- Main event loop
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            done = True
+            isRunning = False
         elif event.type == pygame.KEYDOWN:
             #print("Keydown,", event.key)
             if event.key == 27:
@@ -99,7 +108,7 @@ while not done:
               JOYSTICK_POSTION = "UP"
               CURRENT_EMOJI= CURRENT_COLOR[3]
         elif event.type == pygame.JOYBUTTONDOWN:
-            print("Joystick '",joysticks[event.joy].get_name(),"' button",event.button,"down.")
+            #print("Joystick '",joysticks[event.joy].get_name(),"' button",event.button,"down.")
             if event.button == BUTTONS_YELLOW:
               CURRENT_COLOR= YELLOW
               CURRENT_EMOJI = CURRENT_COLOR[4]
@@ -113,26 +122,23 @@ while not done:
               CURRENT_COLOR= RED
               CURRENT_EMOJI = CURRENT_COLOR[4]
             if event.button == 9:
+              # Controller Stick Press
               CURRENT_EMOJI = CURRENT_COLOR[4]
             if event.button == 5:
-              if CURRENT_SIZE == screenSize:
-                  CURRENT_SIZE = bigScreenSize
-              else:
-                  CURRENT_SIZE = screenSize
+              toggleSprintSize
 
 
-    #Set background
+    #Toggle Size
     screen = pygame.display.set_mode(CURRENT_SIZE)
+    #Set background
     screen.fill(WHITE)
     #Set Emoji
     picture = pygame.image.load(CURRENT_EMOJI)
     scaledImage = pygame.transform.scale(picture, CURRENT_SIZE)
+    #Add Image to the Screen
     screen.blit(scaledImage,(0,0))
-
-    # --- Go ahead and update the screen with what we've drawn.
+    #Screen-refresh
     pygame.display.flip()
-    # --- Limit to 60 frames per second
     clock.tick(60)
-
 # Close the window and quit.
 pygame.quit()
