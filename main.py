@@ -75,13 +75,6 @@ CURRENT_EMOJI = YELLOW[0]
 CURRENT_SIZE = screenSize
 
 
-
-def toggleSprintSize():
-  if CURRENT_SIZE == screenSize:
-      CURRENT_SIZE = bigScreenSize
-  else:
-      CURRENT_SIZE = screenSize
-
 # -------- Main Program Loop -----------
 while isRunning:
     # --- Main event loop
@@ -125,7 +118,10 @@ while isRunning:
               # Controller Stick Press
               CURRENT_EMOJI = CURRENT_COLOR[4]
             if event.button == 5:
-              toggleSprintSize
+               if CURRENT_SIZE == screenSize:
+                    CURRENT_SIZE = bigScreenSize
+               else:
+                    CURRENT_SIZE = screenSize
 
 
     #Toggle Size
