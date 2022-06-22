@@ -44,7 +44,7 @@ mccabe==0.6.1
 monotonic==1.5
 msgpack==0.6.2
 netifaces==0.10.4
-numpy==1.17.4
+numpy==1.22.0
 oauthlib==3.1.0
 olefile==0.46
 onboard==1.4.1
